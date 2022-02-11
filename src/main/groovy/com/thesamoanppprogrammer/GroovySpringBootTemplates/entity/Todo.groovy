@@ -29,7 +29,7 @@ public class Todo implements Serializable {
 
     @NotBlank
     @Size(max = 255)
-    private String todoTitle;
+    private String todo;
 
     private Boolean completed
 }

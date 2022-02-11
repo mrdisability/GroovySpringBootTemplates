@@ -38,9 +38,21 @@ public class TodoController {
         return "index";
     }
 
-//    @GetMapping(value = "/todos")
-//    public String getTodos(Model model,
-//                            @RequestParam(value = "page", defaultValue = "1") int pageNumber) { ... }
+    @GetMapping(value = "/todos")
+    public String getTodos(Model model,
+                            @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+        List<Todo> todos = todoService.findAll(pageNumber, ROW_PER_PAGE);
+
+        long count = todoService.count();
+        boolean hasPrev = pageNumber > 1;
+        boolean hasNext = (pageNumber * ROW_PER_PAGE) < count;
+        model.addAttribute("todos", todos);
+        model.addAttribute("hasPrev", hasPrev);
+        model.addAttribute("prev", pageNumber - 1);
+        model.addAttribute("hasNext", hasNext);
+        model.addAttribute("next", pageNumber + 1);
+        return "todos-list";
+    }
 //
 //    @GetMapping(value = "/todos/{todoId}")
 //    public String getTodoById(Model model, @PathVariable long TodoId) { ... }

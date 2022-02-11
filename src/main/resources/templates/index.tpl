@@ -10,6 +10,6 @@ html(lang:'en') {
         a(href: "/todos", "Todos List")
         br()
         br()
-        div ("Copyright &copy; dariawan.com")
+        div ("Copyright &copy; thesamoanppprogrammer.com")
     }
 }
