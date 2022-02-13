@@ -27,6 +27,29 @@ public class Todo implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
+    Integer getId() {
+        return id
+    }
+
+    void setId(Integer id) {
+        this.id = id
+    }
+
+    String getTodo() {
+        return todo
+    }
+
+    void setTodo(String todo) {
+        this.todo = todo
+    }
+
+    Boolean getCompleted() {
+        return completed
+    }
+
+    void setCompleted(Boolean completed) {
+        this.completed = completed
+    }
     @NotBlank
     @Size(max = 255)
     private String todo;

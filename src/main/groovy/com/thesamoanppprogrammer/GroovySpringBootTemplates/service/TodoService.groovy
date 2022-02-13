@@ -2,11 +2,13 @@ package com.thesamoanppprogrammer.GroovySpringBootTemplates.service
 
 import com.thesamoanppprogrammer.GroovySpringBootTemplates.entity.Todo
 import com.thesamoanppprogrammer.GroovySpringBootTemplates.repository.TodoRepository
+import org.codehaus.groovy.util.StringUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import org.springframework.util.StringUtils
 
 @Service
 public class TodoService {
@@ -35,7 +37,7 @@ public class TodoService {
     }
 
     public Todo save(Todo todo) throws Exception {
-        if (!StringUtils.isEmpty(Todo.getTitle())) {
+        if (!StringUtils.isEmpty(todo.getTodo())) {
             if (todo.getId() != null && existsById(todo.getId())) {
                 throw new Exception("Todo with id: " + todo.getId() +
                         " already exists");
@@ -48,7 +50,7 @@ public class TodoService {
     }
 
     public void update(Todo todo) throws Exception {
-        if (!StringUtils.isEmpty(todo.getTitle())) {
+        if (!StringUtils.isEmpty(todo.getTodo())) {
             if (!existsById(todo.getId())) {
                 throw new Exception("Cannot find Todo with id: " + todo.getId());
             }
@@ -59,7 +61,7 @@ public class TodoService {
         }
     }
 
-    public void deleteById(Long id) throws Exception {
+    public void deleteById(Integer id) throws Exception {
         if (!existsById(id)) {
             throw new Exception("Cannot find Todo with id: " + id);
         }

@@ -2,6 +2,8 @@ package com.thesamoanppprogrammer.GroovySpringBootTemplates.controller
 
 import com.thesamoanppprogrammer.GroovySpringBootTemplates.entity.Todo
 import com.thesamoanppprogrammer.GroovySpringBootTemplates.service.TodoService
+import org.apache.logging.log4j.Logger
+import org.apache.logging.log4j.spi.LoggerContextFactory
 import org.hibernate.annotations.common.util.impl.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -14,14 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
-import java.util.logging.Logger
-
 @Controller
 public class TodoController {
-
-    //private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final int ROW_PER_PAGE = 5;
+
+    //Logger logger = org.slf4j.LoggerFactory.getLogger(TodoController.class);
 
     @Autowired
     private Environment env;
@@ -53,32 +52,88 @@ public class TodoController {
         model.addAttribute("next", pageNumber + 1);
         return "todos-list";
     }
-//
-//    @GetMapping(value = "/todos/{todoId}")
-//    public String getTodoById(Model model, @PathVariable long TodoId) { ... }
-//
-//    @GetMapping(value = ["/todos/add"])
-//    public String showAddTodo(Model model) {
-//        Todo todo = new Todo();
-//        model.addAttribute("add", true);
-//        model.addAttribute("todo", todo);
-//        model.addAttribute("actionUrl", "/todos/add");
-//
-//        return "todo-edit";
-//    }
-//
-//    @PostMapping(value = "/todos/add")
-//    public String addTodo(Model model,
-//                           @ModelAttribute("todo") Todo Todo) { ... }
-//
-//    @GetMapping(value = ["/todos/{todoId}/edit"])
-//    public String showEditTodo(Model model, @PathVariable long TodoId) { ... }
-//
-//    @PostMapping(value = ["/todos/{todoId}/edit"])
-//    public String updateTodo(Model model,
-//                              @PathVariable long todoId,
-//                              @ModelAttribute("todo") Todo todo) { ... }
-//
+
+    @GetMapping(value = "/todos/{todoId}")
+    public String getTodoById(Model model, @PathVariable Integer todoId) {
+        Todo todo = null;
+        String errorMessage = null;
+        try {
+            todo = todoService.findById(todoId);
+        } catch (Exception ex) {
+            errorMessage = "Todo not found";
+        }
+
+        model.addAttribute("todo", todo);
+        model.addAttribute("allowDelete", false);
+        model.addAttribute("errorMessage", errorMessage);
+        return "todo-view";
+    }
+
+    @GetMapping(value = ["/todos/add"])
+    public String showAddTodo(Model model) {
+        Todo todo = new Todo();
+        model.addAttribute("add", true);
+        model.addAttribute("todo", todo);
+        model.addAttribute("actionUrl", "/todos/add");
+
+        return "todo-edit";
+    }
+
+    @PostMapping(value = "/todos/add")
+    public String addTodo(Model model,
+                           @ModelAttribute("todo") Todo todo) {
+        try {
+            Todo newTodo = todoService.save(todo);
+            return "redirect:/todos/" + String.valueOf(newTodo.getId());
+        } catch (Exception ex) {
+            // log exception first,
+            // then show error
+            String errorMessage = ex.getMessage();
+
+            model.addAttribute("errorMessage", errorMessage);
+
+            //model.addAttribute("todo", todo);
+            model.addAttribute("add", true);
+            return "todo-edit";
+        }
+    }
+
+    @GetMapping(value = ["/todos/{todoId}/edit"])
+    public String showEditTodo(Model model, @PathVariable Integer todoId) {
+        Todo todo = null;
+        String errorMessage = null;
+        try {
+            todo = todoService.findById(todoId);
+        } catch (Exception ex) {
+            errorMessage = "Todo not found";
+        }
+        model.addAttribute("add", false);
+        model.addAttribute("todo", todo);
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("actionUrl",
+                "/todos/" + (todo == null ? 0 : todo.getId()) + "/edit");
+        return "todo-edit";
+    }
+
+    @PostMapping(value = ["/todos/{todoId}/edit"])
+    public String updateTodo(Model model,
+                              @PathVariable Integer todoId,
+                              @ModelAttribute("todo") Todo todo) {
+        try {
+            todo.setId(todoId);
+            todoService.update(todoId);
+            return "redirect:/todos/" + String.valueOf(todo.getId());
+        } catch (Exception ex) {
+            // log exception first,
+            // then show error
+            String errorMessage = ex.getMessage()
+            model.addAttribute("errorMessage", errorMessage);
+
+            model.addAttribute("add", false);
+            return "todo-edit";
+        }
+    }
+
 //    @GetMapping(value = ["/todos/{todoId}/delete"])
 //    public String showDeleteTodoById(
 //            Model model, @PathVariable long todoId) { ... }
