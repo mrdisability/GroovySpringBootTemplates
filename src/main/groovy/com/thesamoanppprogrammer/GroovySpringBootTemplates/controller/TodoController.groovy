@@ -138,11 +138,34 @@ public class TodoController {
         }
     }
 
-//    @GetMapping(value = ["/todos/{todoId}/delete"])
-//    public String showDeleteTodoById(
-//            Model model, @PathVariable long todoId) { ... }
-//
-//    @PostMapping(value = ["/todos/{todoId}/delete"])
-//    public String deleteTodoById(
-//            Model model, @PathVariable long todoId) { ... }
+    @GetMapping(value = ["/todos/{todoId}/delete"])
+    public String showDeleteTodoById(
+            Model model, @PathVariable Integer todoId) {
+        Todo todo = null;
+        String errorMessage = null;
+        try {
+            todo = todoService.findById(todoId);
+        } catch (Exception ex) {
+            errorMessage = "Todo not found";
+
+        }
+        model.addAttribute("allowDelete", true);
+        model.addAttribute("todo", todo);
+        model.addAttribute("errorMessage", errorMessage);
+        return "todo-view";
+    }
+
+    @PostMapping(value = ["/todos/{todoId}/delete"])
+    public String deleteTodoById(
+            Model model, @PathVariable Integer todoId) {
+        try {
+            todoService.deleteById(todoId);
+            return "redirect:/todos";
+        } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            model.addAttribute("errorMessage", errorMessage);
+            return "todo-view";
+        }
+    }
 }
