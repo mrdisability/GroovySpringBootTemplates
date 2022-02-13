@@ -8,7 +8,7 @@ html(lang:'en') {
         else {
             title("Edit Todo")
         }
-        link(rel: "stylesheet", type: "text/css", href: "/css/style.css")
+        link(rel: "stylesheet", type: "text/css", href: "/css/bootstrap.min.css")
     }
     body {
         if (add) {
@@ -47,7 +47,7 @@ html(lang:'en') {
             }
             br()
             if (add) {
-                input(type: 'submit', value: 'Create')
+                input(type: 'submit', value: 'Create', class: 'btn btn-primary')
             }
             else {
                 input(type: 'submit', value: 'Update')
