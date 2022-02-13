@@ -37,12 +37,12 @@ public class TodoService {
     }
 
     public Todo save(Todo todo) throws Exception {
-        if (!StringUtils.isEmpty(todo.getTodo())) {
+        if (!StringUtils.isEmpty(todo.getTitle())) {
             if (todo.getId() != null && existsById(todo.getId())) {
                 throw new Exception("Todo with id: " + todo.getId() +
                         " already exists");
             }
-            return todoRepository.save(Todo);
+            return todoRepository.save(todo);
         }
         else {
             throw new Exception("Title cannot be null or empty");
@@ -50,7 +50,7 @@ public class TodoService {
     }
 
     public void update(Todo todo) throws Exception {
-        if (!StringUtils.isEmpty(todo.getTodo())) {
+        if (!StringUtils.isEmpty(todo.getTitle())) {
             if (!existsById(todo.getId())) {
                 throw new Exception("Cannot find Todo with id: " + todo.getId());
             }

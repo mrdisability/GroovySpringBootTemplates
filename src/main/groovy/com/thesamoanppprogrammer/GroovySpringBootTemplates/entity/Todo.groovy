@@ -35,14 +35,6 @@ public class Todo implements Serializable {
         this.id = id
     }
 
-    String getTodo() {
-        return todo
-    }
-
-    void setTodo(String todo) {
-        this.todo = todo
-    }
-
     Boolean getCompleted() {
         return completed
     }
@@ -50,9 +42,17 @@ public class Todo implements Serializable {
     void setCompleted(Boolean completed) {
         this.completed = completed
     }
+
+    String getTitle() {
+        return title
+    }
+
+    void setTitle(String title) {
+        this.title = title
+    }
     @NotBlank
     @Size(max = 255)
-    private String todo;
+    private String title;
 
     private Boolean completed
 }

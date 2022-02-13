@@ -18,9 +18,9 @@ html(lang:'en') {
                     td(todo.id ?: '')
                 }
                 tr {
-                    td("Todo")
+                    td("Title")
                     td(":")
-                    td(todo.todo ?: '')
+                    td(todo.title ?: '')
                 }
                 tr {
                     td("Completed")

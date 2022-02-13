@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
@@ -69,7 +71,8 @@ public class TodoController {
         return "todo-view";
     }
 
-    @GetMapping(value = ["/todos/add"])
+    @GetMapping(value = "/todos/add")
+    //@RequestMapping(value = "/todos/add", method = RequestMethod.GET)
     public String showAddTodo(Model model) {
         Todo todo = new Todo();
         model.addAttribute("add", true);
@@ -80,6 +83,7 @@ public class TodoController {
     }
 
     @PostMapping(value = "/todos/add")
+    //@RequestMapping(value = "/todos/add", method = RequestMethod.POST)
     public String addTodo(Model model,
                            @ModelAttribute("todo") Todo todo) {
         try {

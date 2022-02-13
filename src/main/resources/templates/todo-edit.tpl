@@ -30,17 +30,17 @@ html(lang:'en') {
                     }
                 }
                 tr {
-                    td("Todo")
+                    td("Title")
                     td(":")
                     td {
-                        input(name: 'todo', type: 'text', value: todo.todo ?: '')
+                        input(name: 'title', type: 'text', value: todo.title ?: '')
                     }
                 }
                 tr {
                     td("Completed")
                     td(":")
                     td {
-                        input(name: 'completed', type: 'checkbox', checked: todo.completed)
+                        input(name: 'completed', type: 'checkbox', checked: todo.completed, value: todo.completed ?: false)
                     }
                     td(todo.completed)
                 }

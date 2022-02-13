@@ -20,7 +20,7 @@ html(lang:'en') {
             table(border: "1") {
                 tr {
                     th("Id")
-                    th("Todo")
+                    th("Title")
                     th("Completed")
                     th("Edit")
                 }
@@ -30,7 +30,7 @@ html(lang:'en') {
                             a(href:"/todos/$todo.id", "$todo.id")
                         }
                         td {
-                            a(href:"/todos/$todo.id", "$todo.todo")
+                            a(href:"/todos/$todo.id", "$todo.title")
                         }
                         td("$todo.completed")
                         td {
