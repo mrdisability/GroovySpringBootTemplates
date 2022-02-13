@@ -15,7 +15,7 @@ class ApiTodo {
     Integer id
 
     @Column
-    String todo
+    String title
 
     @Column
     Boolean completed
