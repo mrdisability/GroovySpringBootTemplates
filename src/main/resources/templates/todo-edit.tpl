@@ -40,9 +40,14 @@ html(lang:'en') {
                     td("Completed")
                     td(":")
                     td {
-                        input(name: 'completed', type: 'checkbox', checked: todo.completed, value: todo.completed ?: false)
+//                        input(name: 'completed', type: 'checkbox', checked: todo.completed, value: todo.completed)
+                        if (todo.completed) {
+                            input(name: 'completed', type: 'checkbox', checked: selected, value: todo.completed ?: false)
+                        } else {
+                            input(name: 'completed', type: 'checkbox', value: todo.completed ?: false)
+                        }
                     }
-                    td(todo.completed)
+                    //td(todo.completed)
                 }
             }
             br()
